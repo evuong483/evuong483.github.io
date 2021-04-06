@@ -2,7 +2,9 @@ const Graph = ForceGraph3D()
 	(document.getElementById("3d-graph"));
 
 let curDataSetIdx;
-const dataSets = getGraphDataSets();
+const data = getGraphDataSets();
+const dataSets = data[0];
+const descrips = data[1];
 
 let toggleData;
 (toggleData = function() {
@@ -12,5 +14,5 @@ let toggleData;
 	Graph.resetProps(); // Wipe current state
 	dataSet(Graph); // Load data set
 
-	document.getElementById('graph-data-description').innerHTML = dataSet.description ? `Viewing ${dataSet.description}` : '';
+	document.getElementById('graph-data-description').innerHTML = `Viewing ${descrips[curDataSetIdx]}`;
 })(); // IIFE init

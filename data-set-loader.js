@@ -1,18 +1,33 @@
 function getGraphDataSets() {
 
-    const loadMiserables = function(Graph) {
-        Graph
-            .cooldownTicks(200)
-            .nodeLabel('name')
-            .nodeRelSize(1)
-            .nodeVal('size')
-            .nodeAutoColorBy('group')
-            .forceEngine('ngraph')
-            .jsonUrl('sample.json');
-    };
-    loadMiserables.description = "<em>Les Miserables</em> data (<a href='https://bl.ocks.org/mbostock/4062045'>4062045</a>)";
+    const counties = ['Richmond', 'Queens', 'New York', 'Kings', 'Bronx', 'all'];
 
-    const loadD3Dependencies = function(Graph) {
+    const funcs = counties.map((county) => {
+        const loadCounty = function(Graph) {
+            Graph
+                .cooldownTicks(200)
+                .nodeLabel(
+                    (node) => node.name + '<br>' + node.group + '<br>' + node.size + ' complaints')
+                .nodeRelSize(2)
+                .nodeVal('size')
+                .nodeAutoColorBy('group')
+                .forceEngine('ngraph')
+                .linkWidth(1)
+                .linkLabel((link) => link.count + ' shared complaint')
+                .linkOpacity(0.4)
+                .jsonUrl('data/complaint_map_' + county + '.json')
+        };
+        return loadCounty;
+    });
+
+    const descrips = counties.map((county) => 
+        "<em>" + county + "</em> policing data"
+    );
+    return [funcs, descrips];
+}
+
+/*
+const loadD3Dependencies = function(Graph) {
         fetch('d3.csv').then(r => r.text()).then(d3.csvParse).then(data => {
             const nodes = [], links = [];
             data.forEach(({ size, path }) => {
@@ -45,6 +60,4 @@ function getGraphDataSets() {
         });
     };
     loadD3Dependencies.description = "<em>D3 dependencies</em> data (<a href='https://bl.ocks.org/mbostock/9a8124ccde3a4e9625bc413b48f14b30'>9a8124ccde3a4e9625bc413b48f14b30</a>)";
-
-    return [loadMiserables, loadD3Dependencies];
-}
+    */
