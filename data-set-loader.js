@@ -7,9 +7,9 @@ function getGraphDataSets() {
             Graph
                 .cooldownTicks(200)
                 .nodeLabel(
-                    (node) => node.name + '<br>' + node.group + '<br>' + node.size + ' complaints')
-                .nodeRelSize(2)
-                .nodeVal('size')
+                    (node) => node.name + '<br>' + node.group + '<br>' + node.size + ' complaints' +'<br>' + node.rank)
+                .nodeRelSize(3)
+                .nodeVal((node) => node.size * node.size / 2)
                 .nodeAutoColorBy('group')
                 .forceEngine('ngraph')
                 .linkWidth(1)
